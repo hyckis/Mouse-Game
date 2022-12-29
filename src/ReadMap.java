@@ -1,5 +1,3 @@
-// 105403506¸êºŞ3A¦ó©y¿Ë
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -12,39 +10,39 @@ import javax.swing.*;
 
 public class ReadMap extends JPanel {
 
-	// ¹Ï¤ù
+	// åœ–ç‰‡
 	ImageIcon wall = new ImageIcon("brickwall.png");
 	ImageIcon diamond = new ImageIcon("diamond.png");
 	ImageIcon heart = new ImageIcon("heart.png");
-	// ­«³]¹Ï¤ù¤j¤p
+	// é‡è¨­åœ–ç‰‡å¤§å°
 	Image wallImg = wall.getImage();
 	Image wallImage = wallImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon wallIcon = new ImageIcon(wallImage);	// Àğ
+	Icon wallIcon = new ImageIcon(wallImage);	// ç‰†
 	Image diamondImg = diamond.getImage();
 	Image diamondImage = diamondImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon diamondIcon = new ImageIcon(diamondImage);	// Æp¥Û
+	Icon diamondIcon = new ImageIcon(diamondImage);	// é‘½çŸ³
 	Image heartImg = heart.getImage();
 	Image heartImage = heartImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heartIcon = new ImageIcon(heartImage);	// ·R¤ß
-	// ©ñ¹Ï¤ù
-	GridLayout mazeBlocks = new GridLayout(10, 10);	// 10 * 10ªºgridlayout
-	JLabel[] blocks = new JLabel[100];	// 100­Ólabel
-	int index = -1;	// ¨ú¯Á¤Ş­È
+	Icon heartIcon = new ImageIcon(heartImage);	// æ„›å¿ƒ
+	// æ”¾åœ–ç‰‡
+	GridLayout mazeBlocks = new GridLayout(10, 10);	// 10 * 10çš„gridlayout
+	JLabel[] blocks = new JLabel[100];	// 100å€‹label
+	int index = -1;	// å–ç´¢å¼•å€¼
 
-	// ¦å±ø
+	// è¡€æ¢
 	static Blood blood = new Blood();
-	// ©w®É¦©¦å¶q
-	static int pointer;	// ¦©¦å¶q¼Ò¦¡, 1¬°°±¦b¸ô¤W; 2¬°°±¦bÀğ¤W
-	static TimerHandler handler = new TimerHandler();	// timerªºactionlistener
+	// å®šæ™‚æ‰£è¡€é‡
+	static int pointer;	// æ‰£è¡€é‡æ¨¡å¼, 1ç‚ºåœåœ¨è·¯ä¸Š; 2ç‚ºåœåœ¨ç‰†ä¸Š
+	static TimerHandler handler = new TimerHandler();	// timerçš„actionlistener
 	static Timer timer = new Timer(1000, handler);	// timer
 
-	// Àğ/ ·R¤ßÂà´«
-	ArrayList<Integer> wallCanChange = new ArrayList<>();	// Àx¦sindex of wall that can change
-	SecureRandom randSec = new SecureRandom();	// ²£¥ÍÀH¾÷¬í¼Æ
-	Object lock = new Object();	// ©I¥s¦¹ª«¥ó => wait/ notify
+	// ç‰†/ æ„›å¿ƒè½‰æ›
+	ArrayList<Integer> wallCanChange = new ArrayList<>();	// å„²å­˜index of wall that can change
+	SecureRandom randSec = new SecureRandom();	// ç”¢ç”Ÿéš¨æ©Ÿç§’æ•¸
+	Object lock = new Object();	// å‘¼å«æ­¤ç‰©ä»¶ => wait/ notify
 	
-	// ·Æ¹«¨Æ¥ó
-	MouseListener mouseOnWall = new MouseAdapter() {	// Àğ¾À
+	// æ»‘é¼ äº‹ä»¶
+	MouseListener mouseOnWall = new MouseAdapter() {	// ç‰†å£
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			blood.hitWall();
@@ -56,7 +54,7 @@ public class ReadMap extends JPanel {
 			timer.stop();
 		}
 	};
-	MouseListener mouseOnHeart = new MouseAdapter() {	// ·R¤ß
+	MouseListener mouseOnHeart = new MouseAdapter() {	// æ„›å¿ƒ
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			blood.getHeart();
@@ -65,23 +63,23 @@ public class ReadMap extends JPanel {
 
 	public ReadMap() {
 
-		setLayout(mazeBlocks);	// ©ñgridlayout
+		setLayout(mazeBlocks);	// æ”¾gridlayout
 		
 		try {
 			Pattern pattern = Pattern.compile("\t");	// to split with tab
-			// §âmap.txtªº¤º®e¸Ë¨ìstream¸Ì
+			// æŠŠmap.txtçš„å…§å®¹è£åˆ°streamè£¡
 			Stream<Object> map =
-					Files.lines(Paths.get("map.txt"))	// ±o¨ìmap.txtªº¸ô®|
-						 .flatMap(line -> pattern.splitAsStream(line));	// ¥Îtab¤À¶}
-			// ¤@­Ó¤@­Ó¶]
+					Files.lines(Paths.get("map.txt"))	// å¾—åˆ°map.txtçš„è·¯å¾‘
+						 .flatMap(line -> pattern.splitAsStream(line));	// ç”¨tabåˆ†é–‹
+			// ä¸€å€‹ä¸€å€‹è·‘
 			map.forEach(m -> {
 
-				index++;	// ±o¨ì·í«e¯Á¤Ş­È
-				blocks[index] = new JLabel();	// ªì©l¤Æ²Äindex­ÓJLabel
+				index++;	// å¾—åˆ°ç•¶å‰ç´¢å¼•å€¼
+				blocks[index] = new JLabel();	// åˆå§‹åŒ–ç¬¬indexå€‹JLabel
 
 				switch(m.toString()) {
 
-						case "0":	// ¸ô
+						case "0":	// è·¯
 							blocks[index].addMouseListener(
 									new MouseAdapter() {
 										@Override
@@ -97,24 +95,24 @@ public class ReadMap extends JPanel {
 									});
 							break;
 
-						case "1":	// Àğ©Î·R¤ß
+						case "1":	// ç‰†æˆ–æ„›å¿ƒ
 							blocks[index].setIcon(wallIcon);
 					  		blocks[index].addMouseListener(mouseOnWall);
 							SecureRandom random = new SecureRandom();
-							random.ints(1, 1, 3)	// ÀH¾÷¥Í¦¨1­Ó¬°1©Î2ªº¼Æ
+							random.ints(1, 1, 3)	// éš¨æ©Ÿç”Ÿæˆ1å€‹ç‚º1æˆ–2çš„æ•¸
 								  .boxed()
 								  .forEach(r -> {
 									  switch(r) {
-									  	case 1:	// Àğ
+									  	case 1:	// ç‰†
 									  		break;
-									  	case 2:	// ¥i¥HÂà¦¨·R¤ßªºÀğ
-									  		wallCanChange.add(index);	// §â¸Ólabelªºindex¥[¤Jlist
+									  	case 2:	// å¯ä»¥è½‰æˆæ„›å¿ƒçš„ç‰†
+									  		wallCanChange.add(index);	// æŠŠè©²labelçš„indexåŠ å…¥list
 									  		break;
 									  }
 									});
 							break;
 
-						case "2":	// ¥X¤f
+						case "2":	// å‡ºå£
 							blocks[index].setIcon(diamondIcon);
 							blocks[index].addMouseListener(
 									new MouseAdapter() {
@@ -128,7 +126,7 @@ public class ReadMap extends JPanel {
 
 					}
 				
-				add(blocks[index]);	// ¥[¨ìgridlayout
+				add(blocks[index]);	// åŠ åˆ°gridlayout
 			});
 			
 		} catch (IOException e) {
@@ -137,19 +135,19 @@ public class ReadMap extends JPanel {
 		
 	}
 
-	// ³B²ztimer
+	// è™•ç†timer
 	private static class TimerHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (pointer == 1)	// ¸ô
+			if (pointer == 1)	// è·¯
 				blood.hitRoad();
-			else if (pointer == 2)	// Àğ
+			else if (pointer == 2)	// ç‰†
 				blood.hitWall();
 		}
 	}
 
-	// Àğ¾À/ ·R¤ßÂà´«
-	// Àğ¾ÀÅÜ·R¤ß
+	// ç‰†å£/ æ„›å¿ƒè½‰æ›
+	// ç‰†å£è®Šæ„›å¿ƒ
 	public void WallChange() {
 		try {
 			synchronized(lock) {
@@ -162,17 +160,17 @@ public class ReadMap extends JPanel {
 						blocks[i].addMouseListener(mouseOnHeart);
 					}
 				}
-				lock.notify();	// ¥s¿ôheartchange, Åı¥L°õ¦æwait()¥H«áªºµ{¦¡½X
+				lock.notify();	// å«é†’heartchange, è®“ä»–åŸ·è¡Œwait()ä»¥å¾Œçš„ç¨‹å¼ç¢¼
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	// ·R¤ßÅÜÀğ¾À
+	// æ„›å¿ƒè®Šç‰†å£
 	public void HeartChange() {
 		try {
 			synchronized(lock) {
-				lock.wait();	// µ¥wallchangeµ²§ô¤~°õ¦æ¤U­±ªºªF¦è
+				lock.wait();	// ç­‰wallchangeçµæŸæ‰åŸ·è¡Œä¸‹é¢çš„æ±è¥¿
 				Thread.sleep(randSec.nextInt(7)*1000+3000);	// 3~10 sec
 				for (int i = 0; i < 100; i++) {
 					if (wallCanChange.contains(i)) {
@@ -180,7 +178,7 @@ public class ReadMap extends JPanel {
 						blocks[i].removeMouseListener(mouseOnHeart);
 						blocks[i].setIcon(wallIcon);
 						blocks[i].addMouseListener(mouseOnWall);
-						if (!timer.isRunning()) {	// ³B²z·R¤ßÅÜ¦^Àğ¾À«á·Æ¹«ÁÙ°±¦b¤W­±ªº±¡ªp
+						if (!timer.isRunning()) {	// è™•ç†æ„›å¿ƒè®Šå›ç‰†å£å¾Œæ»‘é¼ é‚„åœåœ¨ä¸Šé¢çš„æƒ…æ³
 							pointer = 2;
 							timer.start();
 						}
