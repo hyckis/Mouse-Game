@@ -1,5 +1,3 @@
-// 105403506∏Í∫ﬁ3A¶Û©yøÀ
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +17,7 @@ public class Blood extends JPanel {
 		g.fillRect(0, 4, blood * 7, 3);
 	}
 
-	// ∏I®Ï¿
+	// Á¢∞Âà∞ÁâÜ
 	public void hitWall() {
 		blood -= 20;
 		repaint();
@@ -27,7 +25,7 @@ public class Blood extends JPanel {
 			noBlood();
 	}
 
-	// ∏I®Ï∏Ù
+	// Á¢∞Âà∞Ë∑Ø
 	public void hitRoad() {
 		blood -= 2;
 		repaint();
@@ -35,7 +33,7 @@ public class Blood extends JPanel {
 			noBlood();
 	}
 
-	// ∏I®Ï∑R§ﬂ
+	// Á¢∞Âà∞ÊÑõÂøÉ
 	public void getHeart() {
 		if (blood > 0) {
 			blood += 10;
@@ -45,7 +43,7 @@ public class Blood extends JPanel {
 		repaint();
 	}
 
-	// ¶Â∂q¬kπs
+	// Ë°ÄÈáèÊ≠∏Èõ∂
 	public void noBlood() {
 		int opt = JOptionPane.showConfirmDialog(null, "Game Over. Try again?", "Game Over", JOptionPane.YES_NO_CANCEL_OPTION);
 		if(opt == JOptionPane.YES_OPTION) {
