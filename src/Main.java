@@ -1,4 +1,4 @@
-// 105403506¸êºŞ3A¦ó©y¿Ë¡C¥[¤ÀÃD: ¹CÀ¸»¡©ú¡B¦å±ø¦b25¥H¤U®ÉÅÜ¦¨¬õ¦â
+//åŠ åˆ†é¡Œ: éŠæˆ²èªªæ˜ã€è¡€æ¢åœ¨25ä»¥ä¸‹æ™‚è®Šæˆç´…è‰²
 
 import java.awt.*;
 import javax.swing.*;
@@ -18,12 +18,12 @@ public class Main {
 		BorderLayout mazeInterface = new BorderLayout();
 
 		frame.setLayout(mazeInterface);
-		frame.add(ReadMap.blood, BorderLayout.NORTH);	// ¥[¦å±ø
-		frame.add(readMap, BorderLayout.CENTER);	// ¥[°g®c
+		frame.add(ReadMap.blood, BorderLayout.NORTH);	// åŠ è¡€æ¢
+		frame.add(readMap, BorderLayout.CENTER);	// åŠ è¿·å®®
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(700, 750);
-		frame.setResizable(false);	// ©T©wµøµ¡¤j¤p
+		frame.setResizable(false);	// å›ºå®šè¦–çª—å¤§å°
 		frame.setVisible(true);	
 
 		JOptionPane.showMessageDialog(null, intro, "Welcome", JOptionPane.PLAIN_MESSAGE);
