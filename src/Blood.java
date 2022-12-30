@@ -1,3 +1,5 @@
+// Author: YICHIN HO
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,12 +18,12 @@ public class Blood extends JPanel {
 		else
 			g.setColor(Color.blue);
 		g.fillRect(0, 4, blood * 7, 3);
-		bloodLabel.setText("¥Ø«e¦å¶q: " + blood);
+		bloodLabel.setText("ç›®å‰è¡€é‡: " + blood);
 		add(bloodLabel);
 		controllWallWithBlood();
 	}
 
-	// ¸I¨ìÀğ
+	// ç¢°åˆ°ç‰†
 	public void hitWall() {
 		blood -= 20;
 		repaint();
@@ -29,7 +31,7 @@ public class Blood extends JPanel {
 			noBlood();
 	}
 
-	// ¸I¨ì¸ô
+	// ç¢°åˆ°è·¯
 	public void hitRoad() {
 		blood -= 2;
 		repaint();
@@ -37,7 +39,7 @@ public class Blood extends JPanel {
 			noBlood();
 	}
 
-	// ¸I¨ì·R¤ß
+	// ç¢°åˆ°æ„›å¿ƒ
 	public void getHeart(int heartType) {
 		if (blood > 0) {
 			blood += heartType;
@@ -47,7 +49,7 @@ public class Blood extends JPanel {
 		repaint();
 	}
 
-	// ¦å¶qÂk¹s
+	// è¡€é‡æ­¸é›¶
 	public void noBlood() {
 		int opt = JOptionPane.showConfirmDialog(null, "Game Over. Try again?", "Game Over", JOptionPane.YES_NO_CANCEL_OPTION);
 		if(opt == JOptionPane.YES_OPTION) {
@@ -67,7 +69,7 @@ public class Blood extends JPanel {
 			System.exit(0);
 	}
 	
-	// ¦å¶q§C©ó30
+	// è¡€é‡ä½æ–¼30
 	public void controllWallWithBlood() {
 		if (blood < 30)
 			new Thread(()->{Main.readMap.grayWall();}).start();		
