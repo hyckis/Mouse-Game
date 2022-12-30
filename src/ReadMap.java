@@ -1,3 +1,5 @@
+// Author: YICHIN HO
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -12,7 +14,7 @@ import javax.swing.*;
 
 public class ReadMap extends JPanel implements Runnable {
 	
-	// ¸ê®Æ®w
+	// è³‡æ–™åº«
 	private static final String URL = "jdbc:mysql://localhost:3306/member?autoReconnect=true&useSSL=false";
 	private static final String USERNAME = "java";
 	private static final String PASSWORD = "java";
@@ -21,11 +23,11 @@ public class ReadMap extends JPanel implements Runnable {
 	private PreparedStatement selectAllUser;
 	private PreparedStatement updateUser;
 	
-	// ¨Ï¥ÎªÌ¸ê®Æ
+	// ä½¿ç”¨è€…è³‡æ–™
 	String userID;
 	int level;
 
-	// ¹Ï¤ù
+	// åœ–ç‰‡
 	ImageIcon wall = new ImageIcon("brickwall.png");
 	ImageIcon grayWall = new ImageIcon("grayBrickwall.png");
 	ImageIcon diamond = new ImageIcon("diamond.png");
@@ -34,52 +36,52 @@ public class ReadMap extends JPanel implements Runnable {
 	ImageIcon heart6 = new ImageIcon("heart6.png");
 	ImageIcon heart8 = new ImageIcon("heart8.png");
 	ImageIcon heart10 = new ImageIcon("heart10.png");
-	// ­«³]¹Ï¤ù¤j¤p
+	// é‡è¨­åœ–ç‰‡å¤§å°
 	Image wallImg = wall.getImage();
 	Image wallImage = wallImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon wallIcon = new ImageIcon(wallImage);	// Àğ
+	Icon wallIcon = new ImageIcon(wallImage);	// ç‰†
 	Image graywallImg = grayWall.getImage();
 	Image graywallImage = graywallImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon grayWallIcon = new ImageIcon(graywallImage);	// ¦Ç¦âÀğ
+	Icon grayWallIcon = new ImageIcon(graywallImage);	// ç°è‰²ç‰†
 	Image diamondImg = diamond.getImage();
 	Image diamondImage = diamondImg.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon diamondIcon = new ImageIcon(diamondImage);	// Æp¥Û
+	Icon diamondIcon = new ImageIcon(diamondImage);	// é‘½çŸ³
 	Image heart2Img = heart2.getImage();
 	Image heart2Image = heart2Img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heart2Icon = new ImageIcon(heart2Image);	// 2¤À·R¤ß
+	Icon heart2Icon = new ImageIcon(heart2Image);	// 2åˆ†æ„›å¿ƒ
 	Image heart4Img = heart4.getImage();
 	Image heart4Image = heart4Img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heart4Icon = new ImageIcon(heart4Image);	// 4¤À·R¤ß
+	Icon heart4Icon = new ImageIcon(heart4Image);	// 4åˆ†æ„›å¿ƒ
 	Image heart6Img = heart6.getImage();
 	Image heart6Image = heart6Img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heart6Icon = new ImageIcon(heart6Image);	// 6¤À·R¤ß
+	Icon heart6Icon = new ImageIcon(heart6Image);	// 6åˆ†æ„›å¿ƒ
 	Image heart8Img = heart8.getImage();
 	Image heart8Image = heart8Img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heart8Icon = new ImageIcon(heart8Image); 	// 8¤À·R¤ß
+	Icon heart8Icon = new ImageIcon(heart8Image); 	// 8åˆ†æ„›å¿ƒ
 	Image heart10Img = heart10.getImage();
 	Image heart10Image = heart10Img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-	Icon heart10Icon = new ImageIcon(heart10Image);	// 10¤À·R¤ß
+	Icon heart10Icon = new ImageIcon(heart10Image);	// 10åˆ†æ„›å¿ƒ
 	
-	// ©ñ¹Ï¤ù
-	GridLayout mazeBlocks = new GridLayout(10, 10);	// 10 * 10ªºgridlayout
-	JLabel[] blocks = new JLabel[100];	// 100­Ólabel
-	int index = -1;	// ¨ú¯Á¤Ş­È
+	// æ”¾åœ–ç‰‡
+	GridLayout mazeBlocks = new GridLayout(10, 10);	// 10 * 10çš„gridlayout
+	JLabel[] blocks = new JLabel[100];	// 100å€‹label
+	int index = -1;	// å–ç´¢å¼•å€¼
 
-	// ¦å±ø
+	// è¡€æ¢
 	static Blood blood = new Blood();
-	// ©w®É¦©¦å¶q
-	static int pointer;	// ¦©¦å¶q¼Ò¦¡, 1¬°°±¦b¸ô¤W; 2¬°°±¦bÀğ¤W
-	static TimerHandler handler = new TimerHandler();	// timerªºactionlistener
+	// å®šæ™‚æ‰£è¡€é‡
+	static int pointer;	// æ‰£è¡€é‡æ¨¡å¼, 1ç‚ºåœåœ¨è·¯ä¸Š; 2ç‚ºåœåœ¨ç‰†ä¸Š
+	static TimerHandler handler = new TimerHandler();	// timerçš„actionlistener
 	static Timer timer = new Timer(1000, handler);	// timer
 
-	// Àğ/ ·R¤ßÂà´«
-	ArrayList<Integer> wallCanChange = new ArrayList<>();	// Àx¦sindex of wall that can change
-	SecureRandom randSec = new SecureRandom();	// ²£¥ÍÀH¾÷¬í¼Æ
-	Object lock = new Object();	// ©I¥s¦¹ª«¥ó => wait/ notify
-	int heartType;	// ¦©¦h¤Ö¦å
+	// ç‰†/ æ„›å¿ƒè½‰æ›
+	ArrayList<Integer> wallCanChange = new ArrayList<>();	// å„²å­˜index of wall that can change
+	SecureRandom randSec = new SecureRandom();	// ç”¢ç”Ÿéš¨æ©Ÿç§’æ•¸
+	Object lock = new Object();	// å‘¼å«æ­¤ç‰©ä»¶ => wait/ notify
+	int heartType;	// æ‰£å¤šå°‘è¡€
 	
-	// ·Æ¹«¨Æ¥ó
-	MouseListener mouseOnWall = new MouseAdapter() {	// Àğ¾À
+	// æ»‘é¼ äº‹ä»¶
+	MouseListener mouseOnWall = new MouseAdapter() {	// ç‰†å£
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			blood.hitWall();
@@ -91,7 +93,7 @@ public class ReadMap extends JPanel implements Runnable {
 			timer.stop();
 		}
 	};
-	MouseListener mouseOnHeart = new MouseAdapter() {	// ·R¤ß
+	MouseListener mouseOnHeart = new MouseAdapter() {	// æ„›å¿ƒ
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			blood.getHeart(heartType);
@@ -100,7 +102,7 @@ public class ReadMap extends JPanel implements Runnable {
 
 	public ReadMap() {
 		
-		userID = JOptionPane.showInputDialog("¿é¤J¥N¸¹:  ");
+		userID = JOptionPane.showInputDialog("è¼¸å…¥ä»£è™Ÿ:  ");
 		
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -110,9 +112,9 @@ public class ReadMap extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 
-		setLayout(mazeBlocks);	// ©ñgridlayout
+		setLayout(mazeBlocks);	// æ”¾gridlayout
 		
-		// §ìuser level
+		// æŠ“user level
 		getAllUser().stream().forEach(u->{
 			if (u.getUserID().equals(userID))
 				level = u.getLevel();
@@ -125,7 +127,7 @@ public class ReadMap extends JPanel implements Runnable {
 		try {
 			Pattern pattern = Pattern.compile("\t");	// to split with tab
 			
-			// §âtxtªº¤º®e¸Ë¨ìstream¸Ì
+			// æŠŠtxtçš„å…§å®¹è£åˆ°streamè£¡
 			Stream<Object> map;
 			if (level == 2) {
 				map = Files	.lines(Paths.get("2.txt"))
@@ -138,15 +140,15 @@ public class ReadMap extends JPanel implements Runnable {
 						.flatMap(line -> pattern.splitAsStream(line));
 			}
 			
-			// ¤@­Ó¤@­Ó¶]
+			// ä¸€å€‹ä¸€å€‹è·‘
 			map.forEach(m -> {
 
-				index++;	// ±o¨ì·í«e¯Á¤Ş­È
-				blocks[index] = new JLabel();	// ªì©l¤Æ²Äindex­ÓJLabel
+				index++;	// å¾—åˆ°ç•¶å‰ç´¢å¼•å€¼
+				blocks[index] = new JLabel();	// åˆå§‹åŒ–ç¬¬indexå€‹JLabel
 
 				switch(m.toString()) {
 
-						case "0":	// ¸ô
+						case "0":	// è·¯
 							blocks[index].addMouseListener(
 									new MouseAdapter() {
 										@Override
@@ -162,24 +164,24 @@ public class ReadMap extends JPanel implements Runnable {
 									});
 							break;
 
-						case "1":	// Àğ©Î·R¤ß
+						case "1":	// ç‰†æˆ–æ„›å¿ƒ
 							blocks[index].setIcon(wallIcon);
 					  		blocks[index].addMouseListener(mouseOnWall);
 							SecureRandom random = new SecureRandom();
-							random.ints(1, 1, 3)	// ÀH¾÷¥Í¦¨1­Ó¬°1©Î2ªº¼Æ
+							random.ints(1, 1, 3)	// éš¨æ©Ÿç”Ÿæˆ1å€‹ç‚º1æˆ–2çš„æ•¸
 								  .boxed()
 								  .forEach(r -> {
 									  switch(r) {
-									  	case 1:	// Àğ
+									  	case 1:	// ç‰†
 									  		break;
-									  	case 2:	// ¥i¥HÂà¦¨·R¤ßªºÀğ
-									  		wallCanChange.add(index);	// §â¸Ólabelªºindex¥[¤Jlist
+									  	case 2:	// å¯ä»¥è½‰æˆæ„›å¿ƒçš„ç‰†
+									  		wallCanChange.add(index);	// æŠŠè©²labelçš„indexåŠ å…¥list
 									  		break;
 									  }
 									});
 							break;
 
-						case "2":	// ¥X¤f
+						case "2":	// å‡ºå£
 							blocks[index].setIcon(diamondIcon);
 							blocks[index].addMouseListener(
 									new MouseAdapter() {
@@ -195,7 +197,7 @@ public class ReadMap extends JPanel implements Runnable {
 
 					}
 				
-				add(blocks[index]);	// ¥[¨ìgridlayout
+				add(blocks[index]);	// åŠ åˆ°gridlayout
 			});
 			
 		} catch (IOException e) {
@@ -204,19 +206,19 @@ public class ReadMap extends JPanel implements Runnable {
 		
 	}
 
-	// ³B²ztimer
+	// è™•ç†timer
 	private static class TimerHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (pointer == 1)	// ¸ô
+			if (pointer == 1)	// è·¯
 				blood.hitRoad();
-			else if (pointer == 2)	// Àğ
+			else if (pointer == 2)	// ç‰†
 				blood.hitWall();
 		}
 	}
 
-	// Àğ¾À/ ·R¤ßÂà´«
-	// Àğ¾ÀÅÜ·R¤ß
+	// ç‰†å£/ æ„›å¿ƒè½‰æ›
+	// ç‰†å£è®Šæ„›å¿ƒ
 	public void wallChange() {
 		try {
 			synchronized(lock) {
@@ -230,7 +232,7 @@ public class ReadMap extends JPanel implements Runnable {
 						blocks[i].addMouseListener(mouseOnHeart);
 					}
 				}
-				lock.notifyAll();	// ¥s¿ôheartchange, Åı¥L°õ¦æwait()¥H«áªºµ{¦¡½X
+				lock.notifyAll();	// å«é†’heartchange, è®“ä»–åŸ·è¡Œwait()ä»¥å¾Œçš„ç¨‹å¼ç¢¼
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -262,7 +264,7 @@ public class ReadMap extends JPanel implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	// ·R¤ßÂà´«
+	// æ„›å¿ƒè½‰æ›
 	public void heartChange() {
 		try {
 			synchronized(lock) {
@@ -309,7 +311,7 @@ public class ReadMap extends JPanel implements Runnable {
 						else 
 							blocks[i].setIcon(grayWallIcon);
 						blocks[i].addMouseListener(mouseOnWall);
-						if (!timer.isRunning() && pointer != 1) {	// ³B²z·R¤ßÅÜ¦^Àğ¾À«á·Æ¹«ÁÙ°±¦b¤W­±ªº±¡ªp
+						if (!timer.isRunning() && pointer != 1) {	// è™•ç†æ„›å¿ƒè®Šå›ç‰†å£å¾Œæ»‘é¼ é‚„åœåœ¨ä¸Šé¢çš„æƒ…æ³
 							pointer = 2;
 							timer.start();
 						}
@@ -322,7 +324,7 @@ public class ReadMap extends JPanel implements Runnable {
 	}
 	
 	
-	// ¨Ï¥ÎªÌ¸ê®Æ
+	// ä½¿ç”¨è€…è³‡æ–™
 	public List<User> getAllUser() {
 		ResultSet resultSet = null;
 		List<User> results = new ArrayList<User>();
