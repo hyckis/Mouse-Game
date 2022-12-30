@@ -1,3 +1,5 @@
+// Author: YICHIN HO
+
 import javax.swing.*;
 import java.awt.*;
 
