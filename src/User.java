@@ -1,3 +1,4 @@
+// Author: YICHIN HO
 
 public class User {
 	
