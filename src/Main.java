@@ -1,4 +1,5 @@
-//加分題: 遊戲說明、血條在25以下時變成紅色
+// Author: YICHIN HO
+// 加分題: 遊戲說明、血條在25以下時變成紅色
 
 import java.awt.*;
 import javax.swing.*;
