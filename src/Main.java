@@ -1,4 +1,5 @@
-//¥[¤ÀÃD: ¹CÀ¸»¡©ú¡B¦å±ø¦b30¥H¤U®ÉÅÜ¦¨¬õ¦â
+// Author: YICHIN HO
+// åŠ åˆ†é¡Œ: éŠæˆ²èªªæ˜ã€è¡€æ¢åœ¨30ä»¥ä¸‹æ™‚è®Šæˆç´…è‰²
 
 import java.awt.*;
 import javax.swing.*;
@@ -30,12 +31,12 @@ public class Main {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(700, 750);
-		frame.setResizable(false);	// ©T©wµøµ¡¤j¤p
+		frame.setResizable(false);	// å›ºå®šè¦–çª—å¤§å°
 		frame.setVisible(true);	
 		
 		try {
-			frame.add(ReadMap.blood, BorderLayout.NORTH);	// ¥[¦å±ø
-			frame.add(readMap, BorderLayout.CENTER);	// ¥[°g®c
+			frame.add(ReadMap.blood, BorderLayout.NORTH);	// åŠ è¡€æ¢
+			frame.add(readMap, BorderLayout.CENTER);	// åŠ è¿·å®®
 			Thread.sleep(10);
 			readMap.run();
 			changeToWallThread.start();
